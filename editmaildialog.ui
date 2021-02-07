@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EditMailDialog</class>
+ <widget class="QDialog" name="EditMailDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>394</width>
+    <height>230</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>394</width>
+    <height>230</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>394</width>
+    <height>230</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Edit Mail</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton
+{
+	border-radius:15px;
+	background-color:#fa2569;
+	color:white;
+}
+
+QPushButton:hover
+{
+	border-radius:15px;
+	background-color:#feb83d;
+	color:black;
+}
+
+QLabel
+{
+	background-color:rgba(0, 0, 0,0);
+	border: 1px solid grey;
+	border-color:#feb83d;
+	border-radius: 5px;
+	color:white;
+}
+
+QLineEdit
+{
+	background-color:rgba(0, 0, 0,0);
+	border: 1px solid grey;
+	border-color:#feb83d;
+	border-radius: 5px;
+	color:white;
+}
+
+QMessageBox 
+{
+    background-color: #220c28;
+}
+
+QMessageBox QLabel 
+{
+    	background-color:rgba(0, 0, 0,0);
+	border: 1px solid grey;
+	border-color:#220c28;
+	border-radius: 5px;
+	color:white;
+}
+
+QMessageBox QPushButton
+{
+	border-radius:15px;
+	border: 1px solid grey;
+	border-color:#fa2569;
+	background-color:#220c28;
+	color:white;
+}
+
+QMessageBox QPushButton::hover
+{
+	border-radius:15px;
+	border: 1px solid grey;
+	border-color:#feb83d;
+	background-color:#220c28;
+	color:white;
+}
+
+#EditMailDialog
+{
+	background-color:#220c28;
+}
+</string>
+  </property>
+  <widget class="QLabel" name="email_label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>30</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Email</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="email_lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>30</y>
+     <width>211</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>username@example.com</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="password_label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>80</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Password</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="password_lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>80</y>
+     <width>211</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>password</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="proxy_label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>130</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Proxy IP/Port</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="proxy_ip_lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>130</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>IP Address</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="proxy_port_lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>130</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>Port</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="reject_pushButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>171</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="apply_pushButton">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>180</y>
+     <width>171</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Apply</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
