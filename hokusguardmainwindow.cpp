@@ -120,9 +120,9 @@ void HokusGuardMainWindow::addMailToGuard()
         color:black;\
     }");
 
-    if ( mp_t.get()->name == "" ) { return; }
+    if ( addmaildialog->getCanceled() ) { return; }
 
-    if ( !db->addMailPass(mp_t.get()->name, mp_t.get()->mail, mp_t.get()->pass, mp_t.get()->hoster, mp_t.get()->proxyip, mp_t.get()->proxyport) )
+    if ( !db->addMailPass(mp_t.get()->name, mp_t.get()->mail, mp_t.get()->pass, mp_t.get()->hoster, mp_t.get()->proxyip, mp_t.get()->proxyport, mp_t.get()->useproxy) )
     {
         // TODO: Find a better solution
         //QMessageBox::critical(this, "DB Error", "internal database error: write()");
@@ -142,6 +142,9 @@ void HokusGuardMainWindow::addMailToGuard()
     {
         this->ui->mailpass_listWidget->addItem(mp_v.get()->mail);
     }
+
+    // Reset addmaildialog ui
+    addmaildialog->resetUI();
 }
 
 void HokusGuardMainWindow::editMailFromGuard()
@@ -179,6 +182,7 @@ void HokusGuardMainWindow::editMailFromGuard()
     editmaildialog->setPasswordText(tmp.pass);
     editmaildialog->setProxyIPText(tmp.proxyip);
     editmaildialog->setProxyPORTText(tmp.proxyport);
+    editmaildialog->setProxyState(tmp.useproxy);
 
     editmaildialog->exec();
 
@@ -197,13 +201,16 @@ void HokusGuardMainWindow::editMailFromGuard()
         color:black;\
     }");
 
+    if ( editmaildialog->getCanceled() ) { return; }
+
     // TODO: Add more checks when we have more values
     if ( tmp.pass == mp_t.get()->pass &&
          tmp.proxyip == mp_t.get()->proxyip &&
-         tmp.proxyport == mp_t.get()->proxyport )
+         tmp.proxyport == mp_t.get()->proxyport &&
+         tmp.useproxy == mp_t.get()->useproxy )
     { return; }
 
-    if ( !db->updateMailPass(mp_t.get()->name, mp_t.get()->mail, mp_t.get()->pass, mp_t.get()->hoster, mp_t.get()->proxyip, mp_t->proxyport) )
+    if ( !db->updateMailPass(mp_t.get()->name, mp_t.get()->mail, mp_t.get()->pass, mp_t.get()->hoster, mp_t.get()->proxyip, mp_t->proxyport, mp_t.get()->useproxy) )
     {
         // TODO: Find a better solution
         //QMessageBox::critical(this, "DB Error", "internal database error: write()");

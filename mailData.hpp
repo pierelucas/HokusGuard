@@ -13,13 +13,14 @@
 struct mailPass_t final
 {
     mailPass_t() = default;
-    explicit mailPass_t(QString &name, QString &mail, QString &pass, QString &hoster, QString &proxyip, QString &proxyport)
+    explicit mailPass_t(QString &name, QString &mail, QString &pass, QString &hoster, QString &proxyip, QString &proxyport, QString &useproxy)
         : name(name)
         , mail(mail)
         , pass(pass)
         , hoster(hoster)
         , proxyip(proxyip)
         , proxyport(proxyport)
+        , useproxy(useproxy)
     {}
     ~mailPass_t() = default;
 
@@ -31,6 +32,7 @@ struct mailPass_t final
     std::shared_ptr<hoster_t> hosterCredentials;
     QString proxyip;
     QString proxyport;
+    QString useproxy; // Number value 0 = false 1 = true
 };
 
 struct mailData_t final

@@ -71,7 +71,8 @@ void dbManager::setupDB()
         "pass VARCHAR(100),"
         "hoster VARCHAR(100),"
         "proxyip VARCHAR(100),"
-        "proxyport VARCHAR(100) )"
+        "proxyport VARCHAR(100),"
+        "useproxy INTEGER )"
     );
     if ( !qry.exec() )
     {
@@ -165,30 +166,32 @@ bool dbManager::retrieveToVec(std::vector<std::shared_ptr<matcherData_t>> &smart
     return true;
 }
 
-bool dbManager::addMailPass(const QString &name, const QString &mail, const QString &pass, const QString &hoster, const QString &proxyip, const QString &proxyport)
+bool dbManager::addMailPass(const QString &name, const QString &mail, const QString &pass, const QString &hoster, const QString &proxyip, const QString &proxyport, const QString &useproxy)
 {
     QSqlQuery qry(m_db);
-    qry.prepare("INSERT INTO mailpass (name,mail,pass,hoster, proxyip, proxyport) VALUES (:name,:mail,:pass,:hoster,:proxyip,:proxyport)");
+    qry.prepare("INSERT INTO mailpass (name,mail,pass,hoster, proxyip, proxyport, useproxy) VALUES (:name,:mail,:pass,:hoster,:proxyip,:proxyport,:useproxy)");
     qry.bindValue(":name", name);
     qry.bindValue(":mail", mail);
     qry.bindValue(":pass", pass);
     qry.bindValue(":hoster", hoster);
     qry.bindValue(":proxyip", proxyip);
     qry.bindValue(":proxyport", proxyport);
+    qry.bindValue(":useproxy", useproxy);
     if( !qry.exec() ) { return false; }
     return true;
 }
 
-bool dbManager::updateMailPass(const QString &name, const QString &mail, const QString &pass, const QString &hoster, const QString &proxyip, const QString &proxyport)
+bool dbManager::updateMailPass(const QString &name, const QString &mail, const QString &pass, const QString &hoster, const QString &proxyip, const QString &proxyport, const QString &useproxy)
 {
     QSqlQuery qry(m_db);
-    qry.prepare("UPDATE mailpass SET name = :name, mail = :mail, pass = :pass, hoster = :hoster, proxyip = :proxyip, proxyport = :proxyport WHERE name = :name");
+    qry.prepare("UPDATE mailpass SET name = :name, mail = :mail, pass = :pass, hoster = :hoster, proxyip = :proxyip, proxyport = :proxyport, useproxy = :useproxy WHERE name = :name");
     qry.bindValue(":name", name);
     qry.bindValue(":mail", mail);
     qry.bindValue(":pass", pass);
     qry.bindValue(":hoster", hoster);
     qry.bindValue(":proxyip", proxyip);
     qry.bindValue(":proxyport", proxyport);
+    qry.bindValue(":useproxy", useproxy);
     if( !qry.exec() ) { return false; }
     return true;
 }
@@ -229,6 +232,7 @@ mailPass_t dbManager::retrieveMailPassByName(const QString &name)
     mp_t.hoster = qry.value("hoster").toString();
     mp_t.proxyip = qry.value("proxyip").toString();
     mp_t.proxyport = qry.value("proxyport").toString();
+    mp_t.useproxy = qry.value("useproxy").toString();
 
     return mp_t;
 }
@@ -248,7 +252,8 @@ bool dbManager::retrieveToVec(std::vector<std::shared_ptr<mailPass_t>> &smart_ve
         auto hoster { qry.value("hoster").toString() };
         auto proxyip { qry.value("proxyip").toString() };
         auto proxyport { qry.value("proxyport").toString() };
-        auto mp_t = std::make_shared<mailPass_t>(name, mail, pass, hoster, proxyip, proxyport);
+        auto useproxy { qry.value("useproxy").toString() };
+        auto mp_t = std::make_shared<mailPass_t>(name, mail, pass, hoster, proxyip, proxyport, useproxy);
         mp_t.get()->id = id;
         smart_vec.push_back(mp_t);
     }

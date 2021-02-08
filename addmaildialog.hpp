@@ -29,13 +29,19 @@ public:
     void setMail(std::shared_ptr<mailPass_t> mp_t);
     std::shared_ptr<mailPass_t> getMail() const;
 
+    void resetUI();
+
+    bool getCanceled() const;
+
 private:
     Ui::AddMailDialog *ui;
 
     // Data
     std::shared_ptr<mailPass_t> mp_t;
+    bool canceled;
 
     void saveAccept();
+    void reject() override;
 };
 
 // Inline functions
@@ -48,6 +54,11 @@ inline void AddMailDialog::setMail(std::shared_ptr<mailPass_t> mp_t)
 inline std::shared_ptr<mailPass_t> AddMailDialog::getMail() const
 {
     return this->mp_t;
+}
+
+inline bool AddMailDialog::getCanceled() const
+{
+    return canceled;
 }
 
 #endif // ADDMAILDIALOG_HPP

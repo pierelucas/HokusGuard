@@ -58,7 +58,7 @@ void EditMailDialog::saveAccept()
     proxyIP.replace(" ", "");
     proxyPORT = proxyPORT.simplified();
     proxyPORT.replace(" ", "");
-    if ( this->ui->use_proxy_radioButton->isEnabled() ||
+    if ( this->ui->use_proxy_radioButton->isChecked() ||
          proxyIP.size() > 0 ||
          proxyPORT.size() > 0 )
     {
@@ -91,6 +91,9 @@ void EditMailDialog::saveAccept()
     this->mp_t.get()->proxyip = proxyIP;
     this->mp_t.get()->proxyport = proxyPORT;
 
+    this->mp_t->useproxy = (this->ui->use_proxy_radioButton->isChecked()) ? "1" : "0";
+
+    this->canceled = false;
     this->accept();
 }
 
@@ -113,4 +116,23 @@ void EditMailDialog::setProxyIPText(const QString &proxyip)
 void EditMailDialog::setProxyPORTText(const QString &proxyport)
 {
     this->ui->proxy_port_lineEdit->setText(proxyport);
+}
+
+void EditMailDialog::setProxyState(const QString &useproxy)
+{
+    if ( useproxy.toInt() > 0 )
+    {
+        this->ui->use_proxy_radioButton->setChecked(true);
+    }
+    else
+    {
+        this->ui->use_proxy_radioButton->setChecked(false);
+
+    }
+}
+
+void EditMailDialog::reject()
+{
+    this->canceled = true;
+    QDialog::reject();
 }

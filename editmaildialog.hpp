@@ -35,14 +35,19 @@ public:
     void setPasswordText(const QString &pass);
     void setProxyIPText(const QString &proxyip);
     void setProxyPORTText(const QString &proxyport);
+    void setProxyState(const QString &useproxy);
+
+    bool getCanceled() const;
 
 private:
     Ui::EditMailDialog *ui;
 
     // Data
     std::shared_ptr<mailPass_t> mp_t;
+    bool canceled;
 
     void saveAccept();
+    void reject() override;
 };
 
 // Inline functions
@@ -55,6 +60,11 @@ inline void EditMailDialog::setMail(std::shared_ptr<mailPass_t> mp_t)
 inline std::shared_ptr<mailPass_t> EditMailDialog::getMail() const
 {
     return this->mp_t;
+}
+
+inline bool EditMailDialog::getCanceled() const
+{
+    return canceled;
 }
 
 #endif // EDITMAILDIALOG_HPP
