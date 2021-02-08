@@ -100,7 +100,8 @@ void HokusGuardMainWindow::addMailToGuard()
     }");
 
     auto mp_t { std::make_shared<mailPass_t>() };
-    this->addmaildialog->setMail(mp_t);
+    addmaildialog->setMail(mp_t);
+    addmaildialog->setDB(db);
 
     addmaildialog->show();
     addmaildialog->exec();

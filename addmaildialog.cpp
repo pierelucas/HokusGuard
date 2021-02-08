@@ -10,6 +10,7 @@ AddMailDialog::AddMailDialog(QWidget *parent) :
     connect(this->ui->apply_pushButton, &QPushButton::clicked, this, &AddMailDialog::accept);
     connect(this->ui->reject_pushButton, &QPushButton::clicked, this, &AddMailDialog::reject);
     connect(this->ui->imap_autofill_pushButton, &QPushButton::clicked, this, &AddMailDialog::autoFillIMAP);
+    connect(this->ui->imap_autofill_add_pushButton, &QPushButton::clicked, this, &AddMailDialog::addHosterToDatabase);
 }
 
 AddMailDialog::~AddMailDialog()
@@ -160,8 +161,65 @@ void AddMailDialog::resetUI()
     this->ui->imap_port_lineEdit->setText("");
 }
 
-bool AddMailDialog::autoFillIMAP()
+void AddMailDialog::autoFillIMAP()
 {
-    // TODO: Implement auto fill here+
-    return true;
+    auto mail = this->ui->email_lineEdit->text();
+
+    // Validate Mail
+    mail = mail.simplified();
+    mail.replace(" ", "");
+    auto dotcheck { mail.split("@") };
+    if ( dotcheck.size() != 2 )
+    {
+        auto prtStr = (mail == "") ? "<empty>" : mail;
+        QMessageBox::information(this, "Mail Error", "this is not a valid mail address: " + prtStr);
+        return;
+    }
+    if ( dotcheck[1].split(".").size() != 2 )
+    {
+        QMessageBox::information(this, "Service Error", "this is not a valid service: " + dotcheck[1]);
+        return;
+    }
+
+    auto hoster { dotcheck[1] };
+
+    // Get hosterdata from db
+    auto h_t = db->retrieveHosterByName(hoster);
+
+    if ( h_t.name.size() < 1 )
+    {
+        QMessageBox::information(this, "No Data", "There's no entry for: " + hoster);
+        return;
+    }
+
+    this->ui->imap_domain_lineEdit->setText(h_t.addr);
+    this->ui->imap_port_lineEdit->setText(h_t.port);
+
+    return;
+}
+
+void AddMailDialog::addHosterToDatabase()
+{
+    QString path { QFileDialog::getOpenFileName(this, "Select hoster to open", QDir::homePath()) };
+
+    // Return if the user close the file dialog without choosing a valid path
+    if ( path.size() <= 0 ) { return; }
+
+    auto temp_vec = new std::vector<std::shared_ptr<hoster_t>>;
+    if ( !Parser::hosterfile(path, *temp_vec) )
+    {
+        QMessageBox::critical(this, "Hoster Error", path + " is not valid or unreadable");
+        return;
+    }
+
+    for ( const auto h_v : *temp_vec )
+    {
+        if ( !db->addHoster(h_v.get()->name, h_v.get()->addr, h_v.get()->port) )
+        {
+            // TODO: Find a better solution
+            //QMessageBox::critical(this, "DB Error", "internal database error: write()");
+            //return;
+        }
+    }
+
 }

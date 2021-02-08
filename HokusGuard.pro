@@ -21,6 +21,7 @@ SOURCES += \
     editmaildialog.cpp \
     main.cpp \
     hokusguardmainwindow.cpp \
+    parser.cpp \
     utils.cpp
 
 HEADERS += \
@@ -31,6 +32,7 @@ HEADERS += \
     hosterData.hpp \
     mailData.hpp \
     matcherData.hpp \
+    parser.hpp \
     settingsData.hpp \
     utils.hpp
 

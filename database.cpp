@@ -86,7 +86,7 @@ void dbManager::setupDB()
         "CREATE TABLE IF NOT EXISTS hoster ("
         "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,"
         "name VARCHAR(100) UNIQUE,"
-        "addr VARCHAR(100) UNIQUE,"
+        "addr VARCHAR(100),"
         "port VARCHAR(100) )"
     );
     if ( !qry.exec() )
@@ -232,6 +232,7 @@ mailPass_t dbManager::retrieveMailPassByName(const QString &name)
 
     qry.first();
 
+    mp_t.id = qry.value("id").toString();
     mp_t.name = qry.value("name").toString();
     mp_t.mail = qry.value("mail").toString();
     mp_t.pass = qry.value("pass").toString();
@@ -300,6 +301,26 @@ bool dbManager::delHoster(const hoster_t &h_t)
     return true;
 }
 
+hoster_t dbManager::retrieveHosterByName(const QString &name)
+{
+    QSqlQuery qry(m_db);
+
+    hoster_t h_t;
+
+    qry.prepare("SELECT * FROM hoster WHERE name = :name");
+    qry.bindValue(":name", name);
+    if ( !qry.exec() ) { return h_t; }
+
+    qry.first();
+
+    h_t.id = qry.value("id").toString();
+    h_t.name = qry.value("name").toString();
+    h_t.addr = qry.value("addr").toString();
+    h_t.port = qry.value("port").toString();
+
+    return h_t;
+}
+
 bool dbManager::retrieveToVec(std::vector<std::shared_ptr<hoster_t> > &smart_vec)
 {
     QSqlQuery qry(m_db);
@@ -361,6 +382,7 @@ mailData_t dbManager::retrieveMailById(const QString &id)
 
     qry.first();
 
+    m_t.id = qry.value("id").toString();
     m_t.from = qry.value("froml").toString();
     m_t.to = qry.value("tol").toString();
     m_t.text = qry.value("textl").toString();

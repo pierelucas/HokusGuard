@@ -50,6 +50,7 @@ public:
     bool addHoster(const QString &name, const QString &addr, const QString &port);
     bool delHoster(const QString &name);
     bool delHoster(const hoster_t &h_t);
+    hoster_t retrieveHosterByName(const QString &name);
     bool retrieveToVec(std::vector<std::shared_ptr<hoster_t>> &smart_vec);
 
     bool addMail(const QString &from, const QString &to, const QString &text);

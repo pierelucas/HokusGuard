@@ -187,3 +187,4 @@ void EditMailDialog::setIMAPPortText(const QString &imapport)
 {
     this->ui->imap_port_lineEdit->setText(imapport);
 }
+
