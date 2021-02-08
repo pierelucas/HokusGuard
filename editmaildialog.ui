@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>394</width>
-    <height>285</height>
+    <height>330</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>394</width>
-    <height>285</height>
+    <height>330</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>394</width>
-    <height>285</height>
+    <height>330</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -208,7 +208,7 @@ QMessageBox QPushButton::hover
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>230</y>
+     <y>280</y>
      <width>171</width>
      <height>31</height>
     </rect>
@@ -221,7 +221,7 @@ QMessageBox QPushButton::hover
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>230</y>
+     <y>280</y>
      <width>171</width>
      <height>31</height>
     </rect>
@@ -234,13 +234,55 @@ QMessageBox QPushButton::hover
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>180</y>
+     <y>230</y>
      <width>91</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>Use Proxy</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="imap_label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>IMAP</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="imap_domain_lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>180</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>IMAP Domain</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="imap_port_lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>180</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>Port</string>
    </property>
   </widget>
  </widget>

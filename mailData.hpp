@@ -7,17 +7,16 @@
 // STL
 #include <memory>
 
-// Project
-#include "hosterData.hpp"
-
 struct mailPass_t final
 {
     mailPass_t() = default;
-    explicit mailPass_t(QString &name, QString &mail, QString &pass, QString &hoster, QString &proxyip, QString &proxyport, QString &useproxy)
+    explicit mailPass_t(QString &name, QString &mail, QString &pass, QString &hoster, QString &hosterIMAPDomain, QString &hosterIMAPPort, QString &proxyip, QString &proxyport, QString &useproxy)
         : name(name)
         , mail(mail)
         , pass(pass)
         , hoster(hoster)
+        , hosterIMAPDomain(hosterIMAPDomain)
+        , hosterIMAPPort(hosterIMAPPort)
         , proxyip(proxyip)
         , proxyport(proxyport)
         , useproxy(useproxy)
@@ -29,7 +28,8 @@ struct mailPass_t final
     QString mail;
     QString pass;
     QString hoster;
-    std::shared_ptr<hoster_t> hosterCredentials;
+    QString hosterIMAPDomain;
+    QString hosterIMAPPort;
     QString proxyip;
     QString proxyport;
     QString useproxy; // Number value 0 = false 1 = true

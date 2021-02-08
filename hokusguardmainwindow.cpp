@@ -122,7 +122,7 @@ void HokusGuardMainWindow::addMailToGuard()
 
     if ( addmaildialog->getCanceled() ) { return; }
 
-    if ( !db->addMailPass(mp_t.get()->name, mp_t.get()->mail, mp_t.get()->pass, mp_t.get()->hoster, mp_t.get()->proxyip, mp_t.get()->proxyport, mp_t.get()->useproxy) )
+    if ( !db->addMailPass(mp_t.get()->name, mp_t.get()->mail, mp_t.get()->pass, mp_t.get()->hoster, mp_t.get()->hosterIMAPDomain, mp_t.get()->hosterIMAPPort, mp_t.get()->proxyip, mp_t.get()->proxyport, mp_t.get()->useproxy) )
     {
         // TODO: Find a better solution
         //QMessageBox::critical(this, "DB Error", "internal database error: write()");
@@ -183,6 +183,8 @@ void HokusGuardMainWindow::editMailFromGuard()
     editmaildialog->setProxyIPText(tmp.proxyip);
     editmaildialog->setProxyPORTText(tmp.proxyport);
     editmaildialog->setProxyState(tmp.useproxy);
+    editmaildialog->setIMAPDomainText(tmp.hosterIMAPDomain);
+    editmaildialog->setIMAPPortText(tmp.hosterIMAPPort);
 
     editmaildialog->exec();
 
@@ -207,10 +209,12 @@ void HokusGuardMainWindow::editMailFromGuard()
     if ( tmp.pass == mp_t.get()->pass &&
          tmp.proxyip == mp_t.get()->proxyip &&
          tmp.proxyport == mp_t.get()->proxyport &&
-         tmp.useproxy == mp_t.get()->useproxy )
+         tmp.useproxy == mp_t.get()->useproxy &&
+         tmp.hosterIMAPDomain == mp_t.get()->hosterIMAPDomain &&
+         tmp.hosterIMAPPort == mp_t.get()->hosterIMAPPort )
     { return; }
 
-    if ( !db->updateMailPass(mp_t.get()->name, mp_t.get()->mail, mp_t.get()->pass, mp_t.get()->hoster, mp_t.get()->proxyip, mp_t->proxyport, mp_t.get()->useproxy) )
+    if ( !db->updateMailPass(mp_t.get()->name, mp_t.get()->mail, mp_t.get()->pass, mp_t.get()->hoster, mp_t.get()->hosterIMAPDomain, mp_t.get()->hosterIMAPPort, mp_t.get()->proxyip, mp_t->proxyport, mp_t.get()->useproxy) )
     {
         // TODO: Find a better solution
         //QMessageBox::critical(this, "DB Error", "internal database error: write()");

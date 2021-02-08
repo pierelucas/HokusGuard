@@ -36,6 +36,8 @@ public:
     void setProxyIPText(const QString &proxyip);
     void setProxyPORTText(const QString &proxyport);
     void setProxyState(const QString &useproxy);
+    void setIMAPDomainText(const QString &imapdomain);
+    void setIMAPPortText(const QString &imapport);
 
     bool getCanceled() const;
 
@@ -46,7 +48,7 @@ private:
     std::shared_ptr<mailPass_t> mp_t;
     bool canceled;
 
-    void saveAccept();
+    void accept() override;
     void reject() override;
 };
 

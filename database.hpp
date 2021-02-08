@@ -40,8 +40,8 @@ public:
     bool delMatcher(const matcherData_t &m_t);
     bool retrieveToVec(std::vector<std::shared_ptr<matcherData_t>> &smart_vec);
 
-    bool addMailPass(const QString &name, const QString &mail, const QString &pass, const QString &hoster, const QString &proxyip, const QString &proxyport, const QString &useproxy);
-    bool updateMailPass(const QString &name, const QString &mail, const QString &pass, const QString &hoster, const QString &proxyip, const QString &proxyport, const QString &useproxy);
+    bool addMailPass(const QString &name, const QString &mail, const QString &pass, const QString &hoster, const QString &hosterIMAPDomain, const QString &hosterIMAPPort, const QString &proxyip, const QString &proxyport, const QString &useproxy);
+    bool updateMailPass(const QString &name, const QString &mail, const QString &pass, const QString &hoster, const QString &hosterIMAPDomain, const QString &hosterIMAPPort, const QString &proxyip, const QString &proxyport, const QString &useproxy);
     bool delMailPass(const QString &name);
     bool delMailPass(const mailPass_t &mp_t);
     mailPass_t retrieveMailPassByName(const QString &name);

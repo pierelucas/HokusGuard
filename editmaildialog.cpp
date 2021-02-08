@@ -7,7 +7,7 @@ EditMailDialog::EditMailDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(this->ui->apply_pushButton, &QPushButton::clicked, this, &EditMailDialog::saveAccept);
+    connect(this->ui->apply_pushButton, &QPushButton::clicked, this, &EditMailDialog::accept);
     connect(this->ui->reject_pushButton, &QPushButton::clicked, this, &EditMailDialog::reject);
 
     this->ui->email_lineEdit->setDisabled(true);
@@ -18,12 +18,14 @@ EditMailDialog::~EditMailDialog()
     delete ui;
 }
 
-void EditMailDialog::saveAccept()
+void EditMailDialog::accept()
 {
     auto mail = this->ui->email_lineEdit->text();
     auto pwd = this->ui->password_lineEdit->text();
     auto proxyIP = this->ui->proxy_ip_lineEdit->text();
     auto proxyPORT = this->ui->proxy_port_lineEdit->text();
+    auto IMAPDomain = this->ui->imap_domain_lineEdit->text();
+    auto IMAPPort = this->ui->imap_port_lineEdit->text();
 
     // Validate Mail
     mail = mail.simplified();
@@ -72,16 +74,37 @@ void EditMailDialog::saveAccept()
             QMessageBox::information(this, "IP Error", "not a valid IPV4 address");
             return;
         }
-        if ( proxyPORT <= 1 )
+        if ( proxyPORT.size() <= 1 )
         {
-            QMessageBox::information(this, "Port Error", "port is empty");
+            QMessageBox::information(this, "Proxy Port Error", "port is empty");
             return;
         }
         if ( proxyPORT.toUInt() <= 0 || proxyPORT.toUInt() > 65535 )
         {
-            QMessageBox::information(this, "Port Error", "not a valid port");
+            QMessageBox::information(this, "Proxy Port Error", "not a valid port");
             return;
         }
+    }
+
+    // Validate IMAP
+    IMAPDomain = IMAPDomain.simplified();
+    IMAPDomain.replace(" ", "");
+    IMAPPort = IMAPPort.simplified();
+    IMAPPort.replace(" ", "");
+    if ( IMAPDomain.size() <= 1 )
+    {
+        QMessageBox::information(this, "Domain Error", "IMAP Domain is empty");
+        return;
+    }
+    if ( IMAPPort.size() <= 1 )
+    {
+        QMessageBox::information(this, "IMAP Port Error", "port is empty");
+        return;
+    }
+    if ( IMAPPort.toUInt() <= 0 || IMAPPort.toUInt() > 65535 )
+    {
+        QMessageBox::information(this, "IMAP Port Error", "not a valid port");
+        return;
     }
 
     this->mp_t.get()->name = mail;
@@ -90,11 +113,19 @@ void EditMailDialog::saveAccept()
     this->mp_t.get()->hoster = hoster;
     this->mp_t.get()->proxyip = proxyIP;
     this->mp_t.get()->proxyport = proxyPORT;
+    this->mp_t.get()->hosterIMAPDomain = IMAPDomain;
+    this->mp_t.get()->hosterIMAPPort = IMAPPort;
 
     this->mp_t->useproxy = (this->ui->use_proxy_radioButton->isChecked()) ? "1" : "0";
 
     this->canceled = false;
-    this->accept();
+    QDialog::accept();
+}
+
+void EditMailDialog::reject()
+{
+    this->canceled = true;
+    QDialog::reject();
 }
 
 void EditMailDialog::setMailText(const QString &mail)
@@ -131,8 +162,12 @@ void EditMailDialog::setProxyState(const QString &useproxy)
     }
 }
 
-void EditMailDialog::reject()
+void EditMailDialog::setIMAPDomainText(const QString &imapdomain)
 {
-    this->canceled = true;
-    QDialog::reject();
+    this->ui->imap_domain_lineEdit->setText(imapdomain);
+}
+
+void EditMailDialog::setIMAPPortText(const QString &imapport)
+{
+    this->ui->imap_port_lineEdit->setText(imapport);
 }

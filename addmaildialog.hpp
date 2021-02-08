@@ -40,8 +40,10 @@ private:
     std::shared_ptr<mailPass_t> mp_t;
     bool canceled;
 
-    void saveAccept();
+    void accept() override;
     void reject() override;
+
+    bool autoFillIMAP();
 };
 
 // Inline functions
