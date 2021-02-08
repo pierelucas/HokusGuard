@@ -29,6 +29,38 @@
    <string notr="true">QMainWindow
 {
 	background-color:#fa2569;
+}
+
+QMessageBox 
+{
+    background-color: #220c28;
+}
+
+QMessageBox QLabel 
+{
+    	background-color:rgba(0, 0, 0,0);
+	border: 1px solid grey;
+	border-color:#220c28;
+	border-radius: 5px;
+	color:white;
+}
+
+QMessageBox QPushButton
+{
+	border-radius:15px;
+	border: 1px solid grey;
+	border-color:#fa2569;
+	background-color:#220c28;
+	color:white;
+}
+
+QMessageBox QPushButton::hover
+{
+	border-radius:15px;
+	border: 1px solid grey;
+	border-color:#feb83d;
+	background-color:#220c28;
+	color:white;
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">

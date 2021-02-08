@@ -68,8 +68,7 @@ void HokusGuardMainWindow::setup()
         this->ui->mailpass_listWidget->clear();
         for ( const auto mp_v : *mailPassVec)
         {
-            QString mailpass { mp_v.get()->mail };
-            this->ui->mailpass_listWidget->addItem(mailpass);
+            this->ui->mailpass_listWidget->addItem(mp_v.get()->mail);
         }
 }
 
@@ -141,8 +140,7 @@ void HokusGuardMainWindow::addMailToGuard()
     this->ui->mailpass_listWidget->clear();
     for ( const auto mp_v : *mailPassVec )
     {
-        QString mailpass { mp_v.get()->mail };
-        this->ui->mailpass_listWidget->addItem(mailpass);
+        this->ui->mailpass_listWidget->addItem(mp_v.get()->mail);
     }
 }
 
@@ -223,12 +221,36 @@ void HokusGuardMainWindow::editMailFromGuard()
     this->ui->mailpass_listWidget->clear();
     for ( const auto mp_v : *mailPassVec )
     {
-        QString mailpass { mp_v.get()->mail };
-        this->ui->mailpass_listWidget->addItem(mailpass);
+        this->ui->mailpass_listWidget->addItem(mp_v.get()->mail);
     }
 }
 
 void HokusGuardMainWindow::deleteMailFromGuard()
 {
-    // TODO: Implement
+    QList<QListWidgetItem*> items = this->ui->mailpass_listWidget->selectedItems();
+    if ( items.size() <= 0 )
+    {
+        QMessageBox::information(this, "Mail Error", "please select mail");
+        return;
+    }
+
+    if( !(db->delMailPass(items[0]->text())) )
+    {
+        QMessageBox::critical(this, "DB Erro", "internal database error: delete()");
+        return;
+    }
+
+    mailPassVec->clear();
+    mailPassVec->shrink_to_fit();
+    if ( !(db->retrieveToVec(*mailPassVec)) )
+    {
+        QMessageBox::critical(this, "DB Error", "internal database error: read()");
+        return;
+    }
+
+    this->ui->mailpass_listWidget->clear();
+    for ( const auto mp_v : *mailPassVec )
+    {
+        this->ui->mailpass_listWidget->addItem(mp_v.get()->mail);
+    }
 }

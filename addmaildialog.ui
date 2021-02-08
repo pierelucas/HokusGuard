@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>394</width>
-    <height>230</height>
+    <height>285</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>394</width>
-    <height>230</height>
+    <height>285</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>394</width>
-    <height>230</height>
+    <height>285</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -47,6 +47,14 @@ QLabel
 	border-color:#feb83d;
 	border-radius: 5px;
 	color:white;
+}
+
+QRadioButton
+{
+	border: 1px solid grey;
+	border-color:#feb83d;
+	border-radius: 5px;
+	color:#fa2569;
 }
 
 QLineEdit
@@ -100,7 +108,7 @@ QMessageBox QPushButton::hover
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>180</y>
+     <y>230</y>
      <width>171</width>
      <height>31</height>
     </rect>
@@ -113,7 +121,7 @@ QMessageBox QPushButton::hover
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>180</y>
+     <y>230</y>
      <width>171</width>
      <height>31</height>
     </rect>
@@ -220,6 +228,19 @@ QMessageBox QPushButton::hover
    </property>
    <property name="placeholderText">
     <string>Port</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="use_proxy_radioButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Use Proxy</string>
    </property>
   </widget>
  </widget>

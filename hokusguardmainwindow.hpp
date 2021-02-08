@@ -21,7 +21,6 @@
 
 #define DEFAULT_THREADS 10
 
-
 QT_BEGIN_NAMESPACE
 namespace Ui { class HokusGuardMainWindow; }
 QT_END_NAMESPACE
