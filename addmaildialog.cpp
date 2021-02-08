@@ -133,6 +133,22 @@ void AddMailDialog::reject()
     QDialog::reject();
 }
 
+void AddMailDialog::keyPressEvent(QKeyEvent *e)
+{
+    switch ( e->key() )
+    {
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
+        this->accept();
+        break;
+    case Qt::Key_Escape:
+        this->reject();
+        break;
+    default:
+        break;
+    }
+}
+
 void AddMailDialog::resetUI()
 {
     this->ui->email_lineEdit->setText("");

@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QStringList>
 #include <QMessageBox>
+#include <QKeyEvent>
 
 // STL
 #include <memory>
@@ -42,6 +43,7 @@ private:
 
     void accept() override;
     void reject() override;
+    void keyPressEvent(QKeyEvent *e) override;
 
     bool autoFillIMAP();
 };

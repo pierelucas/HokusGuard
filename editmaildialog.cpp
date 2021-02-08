@@ -128,6 +128,22 @@ void EditMailDialog::reject()
     QDialog::reject();
 }
 
+void EditMailDialog::keyPressEvent(QKeyEvent *e)
+{
+    switch ( e->key() )
+    {
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
+        this->accept();
+        break;
+    case Qt::Key_Escape:
+        this->reject();
+        break;
+    default:
+        break;
+    }
+}
+
 void EditMailDialog::setMailText(const QString &mail)
 {
     this->ui->email_lineEdit->setText(mail);
