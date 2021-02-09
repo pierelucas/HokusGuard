@@ -6,6 +6,7 @@ HokusGuardMainWindow::HokusGuardMainWindow(QWidget *parent)
     , ui(new Ui::HokusGuardMainWindow)
     , addmaildialog(new AddMailDialog)
     , editmaildialog(new EditMailDialog)
+    , optionwindow(new OptionWindow)
     , db(new dbManager)
     , running(false)
     , settingsData(std::make_shared<settings_t>())
@@ -17,10 +18,12 @@ HokusGuardMainWindow::HokusGuardMainWindow(QWidget *parent)
     ui->setupUi(this);
 
     connect(this->ui->addMailPass_pushButton, &QPushButton::clicked, this, &HokusGuardMainWindow::addMailToGuard);
-    connect(this->ui->editMailPass_pushButton, &QPushButton::clicked, this, &HokusGuardMainWindow::editMailFromGuard);
+    connect(this->ui->mailpass_listWidget, &QListWidget::itemDoubleClicked, this, &HokusGuardMainWindow::editMailFromGuard);
     connect(this->ui->deleteMailPass_pushButton, &QPushButton::clicked, this, &HokusGuardMainWindow::deleteMailFromGuard);
     connect(this->ui->startGuard_pushButton, &QPushButton::clicked, this, &HokusGuardMainWindow::startGuard);
     connect(this->ui->stopGuard_pushButton, &QPushButton::clicked, this, &HokusGuardMainWindow::stopGuard);
+    connect(this->ui->mail_listWidget, &QListWidget::itemDoubleClicked, this, &HokusGuardMainWindow::showMailWindow);
+    connect(this->ui->settings_pushButton, &QPushButton::clicked, this, &HokusGuardMainWindow::showOptionWindow);
 
     this->setup();
 }
@@ -39,6 +42,7 @@ HokusGuardMainWindow::~HokusGuardMainWindow()
     delete ui;
     delete addmaildialog;
     delete editmaildialog;
+    delete optionwindow;
     delete db;
     delete mailPassVec;
     delete hosterVec;
@@ -66,9 +70,32 @@ void HokusGuardMainWindow::setup()
         }
 
         this->ui->mailpass_listWidget->clear();
-        for ( const auto mp_v : *mailPassVec)
+        for ( const auto mp_v : *mailPassVec )
         {
             this->ui->mailpass_listWidget->addItem(mp_v.get()->mail);
+        }
+
+    // Setup Mail list widget
+        this->mailDataVec->clear();
+        this->mailDataVec->shrink_to_fit();
+
+        if ( !(db->retrieveToVec(*mailDataVec)) )
+        {
+            QMessageBox::critical(this, "DB Error", "internal database error: read()");
+            return;
+        }
+
+        this->ui->mail_listWidget->clear();
+        for ( const auto m_v : *mailDataVec )
+        {
+            QString textSlice;
+            for ( int i = 0; i < 50; i++ )
+            {
+                if ( i == m_v.get()->text.length() ) { break; }
+                textSlice += m_v.get()->text.at(i);
+            }
+            QString text = m_v.get()->id + " | " + "FROM: " + m_v.get()->from + " TO: " + m_v.get()->to + " TEXT: " + textSlice + "...";
+            this->ui->mail_listWidget->addItem(text);
         }
 }
 
@@ -151,31 +178,11 @@ void HokusGuardMainWindow::addMailToGuard()
 void HokusGuardMainWindow::editMailFromGuard()
 {
     QList<QListWidgetItem*> items = this->ui->mailpass_listWidget->selectedItems();
-    if ( items.size() <= 0 )
-    {
-        QMessageBox::information(this, "Mail Error", "please select mail");
-        return;
-    }
 
     auto tmp { db->retrieveMailPassByName(items[0]->text()) };
     auto mp_t { std::make_shared<mailPass_t>(tmp) };
 
-    this->ui->editMailPass_pushButton->setDisabled(true);
-    this->ui->editMailPass_pushButton->setStyleSheet(
-    "QPushButton\
-    {\
-        border-radius:15px;\
-        background-color:grey;\
-        color:white;\
-    }\
-    QPushButton:hover\
-    {\
-        border-radius:15px;\
-        background-color:#feb83d;\
-        color:black;\
-    }");
-
-    this->editmaildialog->setMail(mp_t);
+    editmaildialog->setMail(mp_t);
 
     editmaildialog->show();
 
@@ -188,21 +195,6 @@ void HokusGuardMainWindow::editMailFromGuard()
     editmaildialog->setIMAPPortText(tmp.hosterIMAPPort);
 
     editmaildialog->exec();
-
-    this->ui->editMailPass_pushButton->setDisabled(false);
-    this->ui->editMailPass_pushButton->setStyleSheet(
-    "QPushButton\
-    {\
-        border-radius:15px;\
-        background-color:#fa2569;\
-        color:white;\
-    }\
-    QPushButton:hover\
-    {\
-        border-radius:15px;\
-        background-color:#feb83d;\
-        color:black;\
-    }");
 
     if ( editmaildialog->getCanceled() ) { return; }
 
@@ -265,4 +257,37 @@ void HokusGuardMainWindow::deleteMailFromGuard()
     {
         this->ui->mailpass_listWidget->addItem(mp_v.get()->mail);
     }
+}
+
+void HokusGuardMainWindow::showMailWindow()
+{
+    auto mailopenwindow = std::make_shared<MailOpenWindow>();
+
+    QList<QListWidgetItem*> items = this->ui->mail_listWidget->selectedItems();
+
+    auto id = items[0]->text().split("|")[0].simplified().replace(" ", "");
+    auto tmp { db->retrieveMailById(id) };
+    auto m_t { std::make_shared<mailData_t>(tmp) };
+
+    mailopenwindow->setMail(m_t);
+
+    mailopenwindow.get()->show();
+
+    mailopenwindow->setFROMText(tmp.from);
+    mailopenwindow->setTOText(tmp.to);
+    mailopenwindow->setMailText(tmp.text);
+    mailopenwindow->setDateText(tmp.date);
+
+    mailopenwindow.get()->exec();
+}
+
+void HokusGuardMainWindow::showOptionWindow()
+{
+    optionwindow->setDB(db);
+
+    optionwindow->show();
+
+    optionwindow->setup();
+
+    optionwindow->exec();
 }

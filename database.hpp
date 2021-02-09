@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QWidget>
 #include <QFile>
+#include <QPair>
 
 // STL
 #include <memory>
@@ -53,11 +54,15 @@ public:
     hoster_t retrieveHosterByName(const QString &name);
     bool retrieveToVec(std::vector<std::shared_ptr<hoster_t>> &smart_vec);
 
-    bool addMail(const QString &from, const QString &to, const QString &text);
+    bool addMail(const QString &from, const QString &to, const QString &text, const QString &date);
     bool delMail(const QString &id);
     bool delMail(const mailData_t &m_t);
     mailData_t retrieveMailById(const QString &id);
     bool retrieveToVec(std::vector<std::shared_ptr<mailData_t>> &smart_vec);
+
+    bool addOption(const QString &key, const QString &value);
+    bool delOption(const QString &key);
+    std::shared_ptr<QPair<QString, QString>> retrieveOptionByKey(const QString &key);
 
     bool clearDB();
 

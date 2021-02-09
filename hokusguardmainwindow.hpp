@@ -18,6 +18,8 @@
 #include "settingsData.hpp"
 #include "addmaildialog.hpp"
 #include "editmaildialog.hpp"
+#include "mailopenwindow.hpp"
+#include "optionwindow.hpp"
 
 #define DEFAULT_THREADS 10
 
@@ -39,6 +41,7 @@ private:
     // Dialogs
     AddMailDialog *addmaildialog;
     EditMailDialog *editmaildialog;
+    OptionWindow *optionwindow;
 
     // DB
     dbManager *db;
@@ -64,5 +67,8 @@ private:
     void addMailToGuard();
     void editMailFromGuard();
     void deleteMailFromGuard();
+
+    void showMailWindow();
+    void showOptionWindow();
 };
 #endif // HOKUSGUARDMAINWINDOW_HPP

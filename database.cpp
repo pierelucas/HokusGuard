@@ -100,11 +100,24 @@ void dbManager::setupDB()
         "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,"
         "froml VARCHAR(100),"
         "tol VARCHAR(100),"
-        "textl VARCHAR(10000) )"
+        "textl VARCHAR(10000),"
+        "datel VARCHAR(100) )"
     );
     if ( !qry.exec() )
     {
         QMessageBox::critical(this, "Database Error", "corrupted database: C4");
+    }
+
+    qry.prepare
+    (
+        "CREATE TABLE IF NOT EXISTS option ("
+        "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,"
+        "key VARCHAR(100) UNIQUE,"
+        "value VARCHAR(100) )"
+    );
+    if ( !qry.exec() )
+    {
+        QMessageBox::critical(this, "Database Error", "corrupted database: C5");
     }
 }
 
@@ -115,7 +128,8 @@ bool dbManager::clearDB()
          !qry.exec("DELETE FROM matcher;")  ||
          !qry.exec("DELETE FROM hoster;")   ||
          !qry.exec("DELETE FROM mailpass;") ||
-         !qry.exec("DELETE FROM mail;") )
+         !qry.exec("DELETE FROM mail;")     ||
+         !qry.exec("DELETE FROM option;")   )
     {
         return false;
     }
@@ -341,13 +355,14 @@ bool dbManager::retrieveToVec(std::vector<std::shared_ptr<hoster_t> > &smart_vec
     return true;
 }
 
-bool dbManager::addMail(const QString &from, const QString &to, const QString &text)
+bool dbManager::addMail(const QString &from, const QString &to, const QString &text, const QString &date)
 {
     QSqlQuery qry(m_db);
-    qry.prepare("INSERT INTO mail (froml,tol,textl) VALUES (:froml,:tol,:textl)");
+    qry.prepare("INSERT INTO mail (froml,tol,textl,datel) VALUES (:froml,:tol,:textl,:datel)");
     qry.bindValue(":froml", from);
     qry.bindValue(":tol", to);
     qry.bindValue(":textl", text);
+    qry.bindValue(":datel", date);
     if( !qry.exec() ) { return false; }
     return true;
 }
@@ -376,7 +391,7 @@ mailData_t dbManager::retrieveMailById(const QString &id)
 
     mailData_t m_t;
 
-    qry.prepare("SELECT FROM mail WHERE id = :id");
+    qry.prepare("SELECT * FROM mail WHERE id = :id");
     qry.bindValue(":id", id);
     if ( !qry.exec() ) { return m_t; }
 
@@ -386,6 +401,7 @@ mailData_t dbManager::retrieveMailById(const QString &id)
     m_t.from = qry.value("froml").toString();
     m_t.to = qry.value("tol").toString();
     m_t.text = qry.value("textl").toString();
+    m_t.date = qry.value("datel").toString();
 
     return m_t;
 }
@@ -402,10 +418,48 @@ bool dbManager::retrieveToVec(std::vector<std::shared_ptr<mailData_t> > &smart_v
         auto from { qry.value("froml").toString() };
         auto to { qry.value("tol").toString() };
         auto text { qry.value("textl").toString() };
-        auto m_t = std::make_shared<mailData_t>(from, to, text);
+        auto date { qry.value("datel").toString() };
+        auto m_t = std::make_shared<mailData_t>(from, to, text, date);
         m_t.get()->id = id;
         smart_vec.push_back(m_t);
     }
 
     return true;
+}
+
+bool dbManager::addOption(const QString &key, const QString &value)
+{
+    QSqlQuery qry(m_db);
+    qry.prepare("INSERT INTO option (key,value) VALUES (:key,:value)");
+    qry.bindValue(":key", key);
+    qry.bindValue(":value", value);
+    if ( !qry.exec() ) { return false; }
+    return true;
+}
+
+bool dbManager::delOption(const QString &key)
+{
+    QSqlQuery qry(m_db);
+    qry.prepare("DELETE FROM option WHERE key = :key");
+    qry.bindValue(":key", key);
+    if ( !qry.exec() ) { return false; }
+    return true;
+}
+
+std::shared_ptr<QPair<QString, QString>> dbManager::retrieveOptionByKey(const QString &key)
+{
+    QSqlQuery qry(m_db);
+
+    auto opt { std::make_shared<QPair<QString, QString>>("", "") };
+
+    qry.prepare("SELECT * FROM option WHERE key = :key");
+    qry.bindValue(":key", key);
+    if ( !qry.exec() ) { return opt; }
+
+    qry.first();
+
+    opt.get()->first = qry.value("key").toString();
+    opt.get()->second = qry.value("value").toString();
+
+    return opt;
 }

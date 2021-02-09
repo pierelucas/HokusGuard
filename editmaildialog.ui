@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>Edit Mail</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="general.qrc">
+    <normaloff>:/images/potter.svg</normaloff>:/images/potter.svg</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">QPushButton
 {
@@ -286,6 +290,8 @@ QMessageBox QPushButton::hover
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="general.qrc"/>
+ </resources>
  <connections/>
 </ui>

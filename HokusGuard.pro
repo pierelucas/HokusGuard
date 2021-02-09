@@ -19,8 +19,10 @@ SOURCES += \
     addmaildialog.cpp \
     database.cpp \
     editmaildialog.cpp \
+    mailopenwindow.cpp \
     main.cpp \
     hokusguardmainwindow.cpp \
+    optionwindow.cpp \
     parser.cpp \
     utils.cpp
 
@@ -31,7 +33,9 @@ HEADERS += \
     hokusguardmainwindow.hpp \
     hosterData.hpp \
     mailData.hpp \
+    mailopenwindow.hpp \
     matcherData.hpp \
+    optionwindow.hpp \
     parser.hpp \
     settingsData.hpp \
     utils.hpp
@@ -39,9 +43,14 @@ HEADERS += \
 FORMS += \
     addmaildialog.ui \
     editmaildialog.ui \
-    hokusguardmainwindow.ui
+    hokusguardmainwindow.ui \
+    mailopenwindow.ui \
+    optionwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    general.qrc

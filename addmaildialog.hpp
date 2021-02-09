@@ -55,7 +55,6 @@ private:
 
     void autoFillIMAP();
 
-
     // Add to database
     void addHosterToDatabase();
 };

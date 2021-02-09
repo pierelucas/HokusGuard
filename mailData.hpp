@@ -38,10 +38,11 @@ struct mailPass_t final
 struct mailData_t final
 {
     mailData_t() = default;
-    explicit mailData_t(QString &from, QString &to, QString &text)
+    explicit mailData_t(QString &from, QString &to, QString &text, QString &date)
         : from(from)
         , to(to)
         , text(text)
+        , date(date)
     {}
     ~mailData_t() = default;
 
@@ -49,6 +50,7 @@ struct mailData_t final
     QString from;
     QString to;
     QString text;
+    QString date;
 };
 
 #endif // MAILDATA_HPP

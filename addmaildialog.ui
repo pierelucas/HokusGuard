@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>Add Mail</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="general.qrc">
+    <normaloff>:/images/plus.svg</normaloff>:/images/plus.svg</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">QPushButton
 {
@@ -102,7 +106,18 @@ QMessageBox QPushButton::hover
 {
 	background-color:#220c28;
 }
-</string>
+
+#imap_autofill_add_pushButton
+{
+	background-color:rgba(0, 0, 0,0);
+}
+
+#imap_autofill_add_pushButton::hover
+{
+	background-color:rgba(0, 0, 0,0);
+	border: 1px solid grey;
+    border-radius: 5px;
+}</string>
   </property>
   <widget class="QPushButton" name="apply_pushButton">
    <property name="geometry">
@@ -235,7 +250,7 @@ QMessageBox QPushButton::hover
     <rect>
      <x>20</x>
      <y>230</y>
-     <width>91</width>
+     <width>121</width>
      <height>31</height>
     </rect>
    </property>
@@ -288,7 +303,7 @@ QMessageBox QPushButton::hover
   <widget class="QPushButton" name="imap_autofill_pushButton">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>160</x>
      <y>230</y>
      <width>171</width>
      <height>31</height>
@@ -301,17 +316,32 @@ QMessageBox QPushButton::hover
   <widget class="QPushButton" name="imap_autofill_add_pushButton">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>340</x>
      <y>230</y>
-     <width>51</width>
+     <width>31</width>
      <height>31</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>add IMAP credentials to database</string>
+   </property>
    <property name="text">
-    <string>ADD</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="general.qrc">
+     <normaloff>:/images/opened_folder.svg</normaloff>:/images/opened_folder.svg</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>30</width>
+     <height>30</height>
+    </size>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="general.qrc"/>
+ </resources>
  <connections/>
 </ui>

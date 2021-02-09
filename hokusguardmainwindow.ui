@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>HokusGuard - the better guard</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="general.qrc">
+    <normaloff>:/images/potter.svg</normaloff>:/images/potter.svg</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow
 {
@@ -127,27 +131,47 @@ QListWidget
     <widget class="QPushButton" name="addMailPass_pushButton">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>80</x>
        <y>90</y>
-       <width>61</width>
+       <width>31</width>
        <height>31</height>
       </rect>
      </property>
      <property name="text">
-      <string>ADD</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="general.qrc">
+       <normaloff>:/images/plus.svg</normaloff>:/images/plus.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
      </property>
     </widget>
     <widget class="QPushButton" name="deleteMailPass_pushButton">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>130</x>
        <y>90</y>
-       <width>61</width>
+       <width>31</width>
        <height>31</height>
       </rect>
      </property>
      <property name="text">
-      <string>DEL</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="general.qrc">
+       <normaloff>:/images/minus.svg</normaloff>:/images/minus.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
      </property>
     </widget>
     <widget class="QPushButton" name="stopGuard_pushButton">
@@ -163,7 +187,7 @@ QListWidget
       <string>Stop Monitoring</string>
      </property>
     </widget>
-    <widget class="QListWidget" name="listWidget">
+    <widget class="QListWidget" name="mail_listWidget">
      <property name="geometry">
       <rect>
        <x>230</x>
@@ -209,22 +233,34 @@ QListWidget
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="editMailPass_pushButton">
+    <widget class="QPushButton" name="settings_pushButton">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>90</y>
-       <width>61</width>
+       <x>740</x>
+       <y>10</y>
+       <width>31</width>
        <height>31</height>
       </rect>
      </property>
      <property name="text">
-      <string>EDIT</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="general.qrc">
+       <normaloff>:/images/settings.svg</normaloff>:/images/settings.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
      </property>
     </widget>
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="general.qrc"/>
+ </resources>
  <connections/>
 </ui>
